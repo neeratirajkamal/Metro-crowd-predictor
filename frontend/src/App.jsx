@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Train, Users, Activity, TrendingUp, AlertCircle, MapPin, Radio } from 'lucide-react'
+import { initGA, trackPageView, trackViewChange, getVisitorInfo } from './analytics'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
@@ -11,6 +12,14 @@ function App() {
     const [currentView, setCurrentView] = useState('map')
 
     useEffect(() => {
+        // Initialize analytics on first load
+        initGA()
+        trackPageView(window.location.pathname)
+
+        // Log visitor info
+        const visitorInfo = getVisitorInfo()
+        console.log('📊 Visitor Info:', visitorInfo)
+
         fetchData()
         const interval = setInterval(fetchData, 5000)
         return () => clearInterval(interval)
@@ -81,7 +90,10 @@ function App() {
                             {['map', 'dashboard', 'activity'].map(view => (
                                 <button
                                     key={view}
-                                    onClick={() => setCurrentView(view)}
+                                    onClick={() => {
+                                        setCurrentView(view)
+                                        trackViewChange(view) // Track view changes
+                                    }}
                                     className={`px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-all text-xs sm:text-base touch-manipulation ${currentView === view
                                         ? 'bg-blue-500 text-white'
                                         : 'bg-slate-700/50 text-slate-300 active:bg-slate-700'
