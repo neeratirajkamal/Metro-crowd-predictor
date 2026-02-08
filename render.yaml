@@ -9,3 +9,14 @@ services:
     env:
       - key: PYTHON_VERSION
         value: 3.13.4
+
+  # Frontend Static Site
+  - type: web
+    name: hydroflow-frontend
+    runtime: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    plan: free
+    envVars:
+      - key: VITE_API_URL
+        value: https://metro-crowd-predictor-3.onrender.com

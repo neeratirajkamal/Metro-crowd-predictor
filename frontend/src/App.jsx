@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Train, Users, Activity, TrendingUp, AlertCircle, MapPin, Radio } from 'lucide-react'
 
-const API_URL = 'http://localhost:8000'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 function App() {
     const [stationsData, setStationsData] = useState([])
@@ -286,8 +286,8 @@ function App() {
                                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap font-medium text-xs sm:text-sm">{station.name}</td>
                                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                                                 <span className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-xs font-semibold ${station.line === 'red' ? 'bg-metro-red/20 text-metro-red' :
-                                                        station.line === 'green' ? 'bg-metro-green/20 text-metro-green' :
-                                                            'bg-metro-blue/20 text-metro-blue'
+                                                    station.line === 'green' ? 'bg-metro-green/20 text-metro-green' :
+                                                        'bg-metro-blue/20 text-metro-blue'
                                                     }`}>
                                                     {station.line.toUpperCase()}
                                                 </span>
